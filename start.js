@@ -1,9 +1,9 @@
 const figlet = require('figlet');
-const menu = require("./menu");
+const menu = require("./util/menu");
 const inquirer = require("inquirer");
 const table = require("console.table");
-const connection = require("./connection");
-const employees = require("./employee");
+const connection = require("./util/connection");
+const employees = require("./util/employee");
 
 
 
