@@ -2,52 +2,71 @@ const figlet = require('figlet');
 const menu = require("./menu");
 const inquirer = require("inquirer");
 const table = require("console.table");
-var mysql = require("mysql");
- 
+const connection = require("./connection");
+const employees = require("./employee");
+
+var printTable = (data )=>{
+  console.table(data);
+  choices();
+}
+
+var error = (err) => {
+  console.log(err);
+}
+
 figlet('Employee Manager', function (err, banner) {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(banner)
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(banner)
+
 })
+function choices() {
+  inquirer.prompt(menu)
+    .then(answers => {
+      if (answers.listing === "View All Employees") {
+        employees.all()
+          .then(printTable)
+          .catch(error);
+      } else if (answers.listing === "View All Employees By Departments") {
+        employees.viewByDepartment()
+          .then(printTable)
+          .catch(error);
 
-
-var connection = mysql.createConnection({
-    
-    host: "localhost",
-  
-    // Your port; if not 3306
-    port: 3306,
-  
-    // Your username
-    user: "root",
-  
-    // Your password
-    password: "your password",
-    database: "employee_db"
-  });
-  
-  connection.connect(function(err) {
-    if (err) throw err;
-    console.log("connected as id " + connection.threadId + "\n");
-   
-    start();
-  });
-  
-
-function start() {
-    
-    inquirer.prompt(menu).then (answers => {
-        if (answers.listing === "View All Employees") {
-            connection.query("SELECT * FROM employee ", function(err, res) {
-                if (err) throw err;
-                // Log all results of the SELECT statement
-                console.table(res);
-                connection.end();
-              });
-            
-
-        }
+      }
+      else if (answers.listing === "View All Employees By Manager") {
+        employees.viewByManager()
+          .then(printTable)
+          .catch(error);
+      }
+      else if (answers.listing === "Add Employee") {
+        employees.addEmployee()
+          .then(printTable)
+          .catch(error);
+      }
+      else if (answers.listing === "Remove Employee") {
+        employees.removeEmployee()
+          .then(printTable)
+          .catch(error);
+      }
+      else if (answers.listing === "Update Employee") {
+        employees.updateEmployee()
+          .then(printTable)
+          .catch(error);
+      }
+      else if (answers.listing === "Update Employee Manager") {
+        employees.updateEmployeeManager()
+          .then(printTable)
+          .catch(error());
+      }
+      else {
+        console.log("Exiting......")
+        connection.end();
+      }
     })
 }
+
+
+
+choices();
