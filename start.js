@@ -5,6 +5,9 @@ const table = require("console.table");
 const connection = require("./connection");
 const employees = require("./employee");
 
+
+
+
 var printTable = (data )=>{
   console.table(data);
   choices();

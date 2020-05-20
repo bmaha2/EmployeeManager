@@ -1,36 +1,9 @@
-DROP DATABASE IF EXISTS employee_db;
+USE schema;
 
-CREATE DATABASE employee_db;
-
-
-USE employee_db;
-
-CREATE TABLE department (
-    id INT(10) NOT NULL AUTO_INCREMENT,
-    dept_name VARCHAR(30) NOT NULL,
-    PRIMARY KEY(id)
-);
-
-CREATE TABLE role(
-    id INT(10) NOT NULL AUTO_INCREMENT,
-    title VARCHAR(30),
-    salary DECIMAL(30) NOT NULL,
-    department_id INT(10) NOT NULL,
-    PRIMARY KEY(id)
-);
-CREATE TABLE employee(
-    id INT(10) NOT NULL AUTO_INCREMENT,
-    first_name VARCHAR(30) NOT NULL,
-    last_name VARCHAR(30) NOT NULL,
-    role_id INT(10),
-    manager_id INT(10),
-    PRIMARY KEY(id)
-);
-
-INSERT INTO department(dept_name) VALUES ("Legal");
-INSERT INTO department(dept_name) VALUES ("Engineering");
-INSERT INTO department(dept_name) VALUES ("Accounting");
-INSERT INTO department(dept_name) VALUES ("Sales");
+INSERT INTO department(name) VALUES ("Legal");
+INSERT INTO department(name) VALUES ("Engineering");
+INSERT INTO department(name) VALUES ("Accounting");
+INSERT INTO department(name) VALUES ("Sales");
 
 
 INSERT INTO role(title, salary, department_id) VALUES ("Developer I",100000, 2);
@@ -53,3 +26,4 @@ INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES ("Aleen"
 INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES ("Evvie", "Fulham", 3, 3);
 INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES ("Florie", "Leehane", 4, 3);
 INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES ("Carleen", "Ollis", 2, default);
+
