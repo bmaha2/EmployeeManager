@@ -1,19 +1,18 @@
+
+const connection = require("./util/connection");
 const figlet = require('figlet');
 const menu = require("./util/menu");
 const inquirer = require("inquirer");
 const table = require("console.table");
-const connection = require("./util/connection");
+
 const employees = require("./util/employee");
 
-
-
-
-var printTable = (data )=>{
+const printTable = (data) => {
   console.table(data);
   choices();
 }
 
-var error = (err) => {
+const error = (err) => {
   console.log(err);
 }
 
@@ -22,8 +21,7 @@ figlet('Employee Manager', function (err, banner) {
     console.error(err);
     return;
   }
-  console.log(banner)
-
+  console.log(banner);
 })
 function choices() {
   inquirer.prompt(menu)
@@ -32,14 +30,15 @@ function choices() {
         employees.all()
           .then(printTable)
           .catch(error);
-      } else if (answers.listing === "View All Employees By Departments") {
-        employees.viewByDepartment()
-          .then(printTable)
-          .catch(error);
+      } else if (answers.listing === "View All Employees By Department") {
+        employees.viewEmployeesByDepartment()
+          
+            .then(printTable)
+            .catch(error);
 
       }
       else if (answers.listing === "View All Employees By Manager") {
-        employees.viewByManager()
+        employees.viewEmployeesByManager()
           .then(printTable)
           .catch(error);
       }
@@ -69,7 +68,4 @@ function choices() {
       }
     })
 }
-
-
-
 choices();
