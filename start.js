@@ -1,10 +1,9 @@
 
-const connection = require("./util/connection");
 const figlet = require('figlet');
-const menu = require("./util/menu");
+const connection = require("./util/connection");
+const questions = require("./util/questions");
 const inquirer = require("inquirer");
 const table = require("console.table");
-
 const employees = require("./util/employee");
 
 const printTable = (data) => {
@@ -24,7 +23,7 @@ figlet('Employee Manager', function (err, banner) {
   console.log(banner);
 })
 function choices() {
-  inquirer.prompt(menu)
+  inquirer.prompt(questions.menu)
     .then(answers => {
       if (answers.listing === "View All Employees") {
         employees.all()
