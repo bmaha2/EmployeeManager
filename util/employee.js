@@ -87,9 +87,6 @@ const employees = {
         //console.log(answers);
         let p1 = new Promise(function (resolve, reject) {
           let sql = `INSERT INTO employee(first_name, last_name) VALUES("${answers.first_name}","${answers.last_name}")`;
-          //`INSERT INTO role(title, salary, department_id) VALUES (${answers.title}, ${answers.salary},${answers.department_id})`;
-          //`INSERT INTO department(dept_name) VALUES(${answers.department}) COMMIT `;
-
           connection.query(sql, function (err, data) {
             if (err) reject(err);
             //console.log(data);
@@ -99,11 +96,7 @@ const employees = {
           throw (err);
         })
         let p2 = new Promise(function (resolve, reject) {
-          let sql = //SQL `INSERT INTO employee(first_name, last_name) 
-            //VALUES(${answers.first_name},${answers.last_name})`;
-            `INSERT INTO role(title, salary, department_id) VALUES ("${answers.title}", ${answers.salary},${answers.department_id})`;
-          //`INSERT INTO department(dept_name) VALUES(${answers.department}) COMMIT `;
-
+          let sql = `INSERT INTO role(title, salary, department_id) VALUES ("${answers.title}", ${answers.salary},${answers.department_id})`;
           connection.query(sql, function (err, data) {
             if (err) reject(err);
             //console.log(data);
@@ -113,11 +106,7 @@ const employees = {
           throw (err);
         })
         let p3 = new Promise(function (resolve, reject) {
-          let sql = //SQL `INSERT INTO employee(first_name, last_name) 
-            //VALUES(${answers.first_name},${answers.last_name})`;
-            //`INSERT INTO role(title, salary, department_id) VALUES (${answers.title}, ${answers.salary},${answers.department_id})`;
-            `INSERT INTO department(dept_name) VALUES("${answers.department}")`;
-
+          let sql = `INSERT INTO department(dept_name) VALUES("${answers.department}")`;
           connection.query(sql, function (err, data) {
             if (err) reject(err);
             //console.log(data);
@@ -126,9 +115,9 @@ const employees = {
         }).catch(err => {
           throw (err);
         })
-
         return Promise.all([p1, p2, p3]).then((values)=> {
-          console.log("New Employee added succesfully!!!!");
+          console.log((`${answers.first_name} ${answers.last_name} added succesfully!!!!`).green);
+         
         });
 
 

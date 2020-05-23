@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/bmaha2/EmployeeManager#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "console.table": "^0.10.0",
     "dotenv": "^8.2.0",
     "figlet": "^1.4.0",

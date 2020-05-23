@@ -5,9 +5,11 @@ const questions = require("./util/questions");
 const inquirer = require("inquirer");
 const table = require("console.table");
 const employees = require("./util/employee");
+const colors = require("colors");
 
 const displayMenu = (data) => {
   console.table(data);
+  console.log(("=============================================================================================").green);
   choices();
 }
 
@@ -20,7 +22,7 @@ figlet('Employee Manager', function (err, banner) {
     console.error(err);
     return;
   }
-  console.log(banner);
+  console.log(banner.blue);
 })
 function choices() {
   inquirer.prompt(questions.menu)
