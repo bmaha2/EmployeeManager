@@ -15,22 +15,36 @@ const employees = {
   },
 
   viewEmployeesByDepartment: function () {
-    return inquirer.prompt({
-      type: 'rawlist',
-      name: 'department',
-      message: 'Select department to view its employees',
-      choices: ["Legal", "Engineering", "Accounting", "Sales"]
-    }).then(answers => {
-      let data = answers.department;
-      return new Promise(function (resolve, reject) {
-        sql = `${table} where d.dept_name = ? `;
-        connection.query(sql, [data], function (err, data) {
-          if (err) reject(err);
-          resolve(data);
+    let sql = "SELECT  d.dept_name AS DEPARTMENT FROM employee e LEFT JOIN role r ON e.id = r.id LEFT JOIN department d ON r.department_id = d.id LEFT JOIN employee m on m.id = e.manager_id group by d.dept_name";
+
+    return departmentQuery = new Promise((resolve, reject) => {
+      let departments = [];
+      connection.query(sql, function (err, data) {
+        if (err) reject(err);
+        Object.values(data).forEach(d => {
+          departments.push(d.DEPARTMENT);
+          resolve(departments);
+        })
+      })
+    }).then((departments) => {
+
+      return inquirer.prompt({
+        type: 'rawlist',
+        name: 'department',
+        message: 'Select department to view its employees',
+        choices: departments
+      }).then(answers => {
+        let data = answers.department;
+        return new Promise(function (resolve, reject) {
+          sql = `${table} where d.dept_name = ? `;
+          connection.query(sql, [data], function (err, data) {
+            if (err) reject(err);
+            resolve(data);
+          });
+        }).catch(err => {
+          throw (err);
         });
-      }).catch(err => {
-        throw (err);
-      });
+      })
     })
   },
 
@@ -69,10 +83,56 @@ const employees = {
   },
   addEmployee: function () {
     return inquirer.prompt(questions.addEmployee)
-    .then(answers => {
-      console.log(answers);
+      .then(answers => {
+        //console.log(answers);
+        let p1 = new Promise(function (resolve, reject) {
+          let sql = `INSERT INTO employee(first_name, last_name) VALUES("${answers.first_name}","${answers.last_name}")`;
+          //`INSERT INTO role(title, salary, department_id) VALUES (${answers.title}, ${answers.salary},${answers.department_id})`;
+          //`INSERT INTO department(dept_name) VALUES(${answers.department}) COMMIT `;
 
-    });
+          connection.query(sql, function (err, data) {
+            if (err) reject(err);
+            //console.log(data);
+            resolve(data);
+          });
+        }).catch(err => {
+          throw (err);
+        })
+        let p2 = new Promise(function (resolve, reject) {
+          let sql = //SQL `INSERT INTO employee(first_name, last_name) 
+            //VALUES(${answers.first_name},${answers.last_name})`;
+            `INSERT INTO role(title, salary, department_id) VALUES ("${answers.title}", ${answers.salary},${answers.department_id})`;
+          //`INSERT INTO department(dept_name) VALUES(${answers.department}) COMMIT `;
+
+          connection.query(sql, function (err, data) {
+            if (err) reject(err);
+            //console.log(data);
+            resolve(data);
+          });
+        }).catch(err => {
+          throw (err);
+        })
+        let p3 = new Promise(function (resolve, reject) {
+          let sql = //SQL `INSERT INTO employee(first_name, last_name) 
+            //VALUES(${answers.first_name},${answers.last_name})`;
+            //`INSERT INTO role(title, salary, department_id) VALUES (${answers.title}, ${answers.salary},${answers.department_id})`;
+            `INSERT INTO department(dept_name) VALUES("${answers.department}")`;
+
+          connection.query(sql, function (err, data) {
+            if (err) reject(err);
+            //console.log(data);
+            resolve(data);
+          });
+        }).catch(err => {
+          throw (err);
+        })
+
+        return Promise.all([p1, p2, p3]).then((values)=> {
+          console.log("New Employee added succesfully!!!!");
+        });
+
+
+      });
 
   },
 }

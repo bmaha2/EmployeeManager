@@ -31,12 +31,16 @@ const addEmployee = [
         message: "What will be new employee's salary? "
     },
     {
+        type: "rawlist",
+        name: "department",
+        message: "Which department will new employee assigned to?",
+        choices: ["Legal", "Engineering", "Accounting", "Sales"] 
+    },
+    {
         type: "input",
-        name: "deparment",
-        message: "Which department will new employee assing to? "
+        name: "department_id",
+        message: "Enter Department_id 1 for Legal 2 for Engineering, 3 for Accounting 4 for Sales"
     }
-
-
 
 ]
 

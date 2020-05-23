@@ -6,7 +6,7 @@ const inquirer = require("inquirer");
 const table = require("console.table");
 const employees = require("./util/employee");
 
-const printTable = (data) => {
+const displayMenu = (data) => {
   console.table(data);
   choices();
 }
@@ -27,38 +27,37 @@ function choices() {
     .then(answers => {
       if (answers.listing === "View All Employees") {
         employees.all()
-          .then(printTable)
+          .then(displayMenu)
           .catch(error);
       } else if (answers.listing === "View All Employees By Department") {
         employees.viewEmployeesByDepartment()
-          
-            .then(printTable)
+            .then(displayMenu)
             .catch(error);
 
       }
       else if (answers.listing === "View All Employees By Manager") {
         employees.viewEmployeesByManager()
-          .then(printTable)
+          .then(displayMenu)
           .catch(error);
       }
       else if (answers.listing === "Add Employee") {
         employees.addEmployee()
-          .then(printTable)
+          .then(displayMenu)
           .catch(error);
       }
       else if (answers.listing === "Remove Employee") {
         employees.removeEmployee()
-          .then(printTable)
+          .then(displayMenu)
           .catch(error);
       }
       else if (answers.listing === "Update Employee") {
         employees.updateEmployee()
-          .then(printTable)
+          .then(displayMenu)
           .catch(error);
       }
       else if (answers.listing === "Update Employee Manager") {
         employees.updateEmployeeManager()
-          .then(printTable)
+          .then(displayMenu)
           .catch(error());
       }
       else {
