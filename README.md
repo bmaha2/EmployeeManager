@@ -1,5 +1,6 @@
 # EmployeeManager
 ## gitHub repo link
+https://github.com/bmaha2/EmployeeManager.git
 
 ## Description
 * USER can view all employees
