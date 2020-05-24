@@ -23,6 +23,7 @@ figlet('Employee Manager', function (err, banner) {
     return;
   }
   console.log(banner.blue);
+  choices();
 })
 function choices() {
   inquirer.prompt(questions.menu)
@@ -68,4 +69,3 @@ function choices() {
       }
     })
 }
-choices();
